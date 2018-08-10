@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title> CENTRAL PLANT WEBPAGE ! THIS IS MOCK UP PAGE ! </title>
+
+
+<!-- load css -->
+<link rel="stylesheet" href="./lib/CSS/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="./lib/CSS/style.css" type="text.css"</link>
+<link rel="stylesheet" href="./lib/CSS/pure-min.css" type="text.css"</link>
+<link rel="stylesheet" href="./lib/CSS/jquery.dataTables.css" type="text/css"></link>
+
+
+<!-- load javascript libraries -->
+<script src="./lib/jquery-2.2.4.min.js"></script>
+<script src="./lib/d3.min.js"></script>
+<script type="text/javascript" charset="utf8" src="./lib/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="./lib/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="./lib/js/highstock.js"></script>
+<script type="text/javascript" charset="utf8" src="./lib/js/exporting.js"></script>
+
+
+
+<style>
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+}
+body {
+    padding-top: 0px;
+    padding-right: 80px;
+    padding-bottom: 0px;
+    padding-left: 80px;
+} 
+footer {
+      background-color: #e2f7ff;
+	  position: absolute;
+      bottom: 10;
+      height: 20px;
+	  width: 85%;
+	  margin-top: 15px;
+	  margin-bottom: 20px;
+}
+
+.topnav {
+  background-color: #ececec;
+  overflow: hidden;
+}
+
+input[type=button] {
+    width: 100%;
+    background-color: #60d3e5;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=number],select{
+width: 100%;
+padding:10px 20px;
+margin: 5px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+/* runmodel */
+#runmodel {
+	width: 100%;
+	height: auto;
+	padding: 12px 20px;
+	background: #f2f2f2;
+	border-radius: 4px;
+	/*color: white;*/
+	text-align: left;
+	overflow: auto;	
+}
+
+/* result */
+#result {
+	width: 100%;
+	height: auto;
+	padding: 12px 20px;
+	margin-top: 30px;
+	background: #f2f2f2;
+	border-radius: 4px;
+	/*color: white;*/
+	text-align: left;
+	overflow: auto;	
+}
+</style>
+
+
+<body>
+  
+<!-- header -->
+<header>
+	<nav class="navbar navbar-default navbar-static-top">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <h1> CENTRAL PLANT WEBPAGE ! THIS IS MOCK UP PAGE ! </h1>      
+          </div>
+        </div>
+   </nav>
+</header>   
+<!-- end of header -->
+
+
+<div class="container-fluid">    
+<!-- Summary -->  
+<p class="survey"> Description of the webpage
+</p>
+
+ 
+<div class="row"> 
+	<form id="runmodel" action="/action_page.php">
+		<div class="col-lg-4"> 
+		<p><b>Building Total Square Footage (GSF): </b></p>
+		Residential Building/ Dorm(GSF): <input type="number" name="bldg_gsf_res" value= 10000000>
+		<br>
+		Office Building(GSF): <input type="number" name="bldg_gsf_office" value= 100000>
+		<br>
+		Community Center Building(GSF): <input type="number" name="bldg_gsf_community" value= 100000>
+		<br>
+		Retail Building(GSF): <input type="number" name="bldg_gsf_retail" value= 100000>
+		<br>
+		Grocery Store Building(GSF): <input type="number" name="bldg_gsf_grocery" value= 100000>
+		<br>
+		Hotel Building(GSF): <input type="number" name="bldg_gsf_hotel" value= 100000>
+		<br>
+		CA Climate Zone: <select name="climate_zone">
+			<option>CZ 01</option>
+			<option>CZ 02</option>
+			<option>CZ 03</option>
+			<option>CZ 04</option>
+		</select>
+		</div>	 
+		<div class="col-lg-4"> 
+		<p><b>System Efficiency: </b><p>
+		Water-to-Water HP Heating Rated COP: <input type="number" name="wwhp_heating_rated_COP" value= 4>
+		<br>
+		Water-to-Water HP Cooling Rated COP: <input type="number" name="wwhp_cooling_rated_COP" value= 4>
+		<br>
+		Water Cooling Chiller Rated COP: <input type="number" name="water_cooling_chiller_rated_COP" value= 6>
+		<br> 
+		Boiler Efficiency (0~1): <input type="number" name="boiler_efficiency" value= 0.80>
+		<br>
+		Domestic Hot Water Efficiency (0~1): <input type="number" name="dhw_efficiency" value= 0.80>
+		<br>
+		<br>
+		</div>	 
+		<div class="col-lg-4"> 
+		<p><b>Energy Efficiency Measures: </b></p>
+		HVAC System Type: <select name="hvac_type">
+			<option>No cooling/ Gas Heating </option>
+			<option>Roof Top Unit (DX Cooling/ Gas Heating) </option>
+			<option>Roof Top Unit (DX Cooling/ Electric Heating)</option>
+			<option>Single Zone Split Heat Pump</option>
+		</select>
+		<br>
+		DHW Type: <select name="dhw_type">
+			<option>60% Central Water Heater </option>
+			<option>Heat Exchanger</option>
+			<option>Heat Pump Water Heater</option>
+			<option>Electric Water Heater</option>
+		</select>
+		<br>		
+		Energy Efficiency Measure: <select name="bldg_eems">
+			<option>20% Lighting Power Density Reduction</option>
+			<option>20% Plug Load Power Density Reduction</option>
+			<option>Wall Upgrade</option>
+			<option>Window Upgrade</option>
+		</select>		
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<input type="button" onclick="runsimulation()" value = "RUN SIMULATION">
+		<input type="button" onclick="resetfunction()" value = "RESET">
+		</div>	
+	</form>
+</div>
+
+
+
+<!-- Show Graph-->
+<div class="row">
+	<div id="container"></div>
+		<div id = "load_profile_graph"></div>
+
+</div>
+
+<div class="row"></div>
+<div class="row"></div>
+
+<div class="row"> 
+	<table id="result">
+		<tr>
+			<th>Total Cooling Energy</th>
+			<td>123</td>
+		</tr>
+		<tr>
+			<th>Total Heating Energy</th>
+			<td>123</td>
+		</tr>
+	</table>
+</div>
+
+<!-- Show Data -->
+<!-- <table id="example" class="display" cellspacing="0" width="100%"> -->
+        <!-- <thead> -->
+            <!-- <tr> -->
+                <!-- <th>Time</th> -->
+				<!-- <th>Total Cooling Primary (kbtu)</th>		 -->
+				<!-- </tr> -->
+        <!-- </thead> -->
+        <!-- <tfoot> -->
+            <!-- <tr> -->
+                <!-- <th>Time</th> -->
+				<!-- <th>Total Cooling Primary (kbtu)</th> -->
+	
+				<!-- </tr> -->
+        <!-- </tfoot> -->
+    <!-- </table> -->
+
+
+<script>
+
+// Run Simulation Button Function
+function runsimulation(){
+	//document.getElementByID("runmodel").submit();
+	var inputs = document.getElementById("runmodel");
+	var out = document.getElementById("output");
+	// To define user inputs
+	var bldg_gsf_res= inputs.bldg_gsf_res.value;
+	var bldg_gsf_office= inputs.bldg_gsf_office.value;
+	var bldg_gsf_community= inputs.bldg_gsf_community.value;
+	var bldg_gsf_retail= inputs.bldg_gsf_retail.value;	
+	var bldg_gsf_grocery= inputs.bldg_gsf_grocery.value;	
+	var bldg_gsf_hotel= inputs.bldg_gsf_hotel.value;
+	//console.log(bldg_gsf_office)
+	var wwhp_heating_rated_COP = inputs.wwhp_heating_rated_COP.value;
+	var wwhp_cooling_rated_COP = inputs.wwhp_cooling_rated_COP.value;
+	var water_cooling_chiller_rated_COP = inputs.water_cooling_chiller_rated_COP.value;
+	var boiler_efficiency = inputs.boiler_efficiency.value;
+	var dhw_efficiency = inputs. dhw_efficiency.value;
+	
+	// To disply:
+		// Total Cooling Primary (kbtu)	
+		// Total cooling Secondary	(kbtu) = Res + Hotel
+		// Total Cooling (kbtu)
+		// Total Heating (kbtu)
+		// Total DHW (kbtu)
+
+	// for small
+	//var parseDate = d3.time.format("%m/%d/%Y %H:%M:%S%p").parse;
+	
+	// for large
+	var parseDate = d3.time.format(" %m/%d  %H:%M:%S").parse;
+	
+	d3.csv("./data/data_source.csv", function(data){
+		//console.log(data);
+		data.forEach(function(d){
+			d.time = parseDate(d["Time"])
+			//Total Cooling Load
+			d.Total_Cooling_multiplied_area = 
+						(+d.Office_Cooling*bldg_gsf_office) +
+						(+d.community_center_Cooling*bldg_gsf_community) +
+						(+d.Retail_Cooling*bldg_gsf_retail) +
+						(+d.Grocery_Cooling*bldg_gsf_grocery)+
+						(+d.Residential_Cooling*bldg_gsf_res)+
+						(+d.Hotel_Cooling*bldg_gsf_hotel)
+
+			// Total DHW Load
+			d.Total_DHW_multiplied_area = 
+						(+d.Residential_DHW*bldg_gsf_res) +
+						(+d.Office_DHW*bldg_gsf_office) +
+						(+d.community_center_DHW*bldg_gsf_community) +
+						(+d.Retail_DHW*bldg_gsf_retail) +
+						(+d.Grocery_DHW*bldg_gsf_grocery) +
+						(+d.Hotel_DHW*bldg_gsf_hotel)						
+						
+			//Total Heating Load (including DHW load)
+			d.Total_Heating_multiplied_area = 
+						(+d.Residential_Heating*bldg_gsf_res) +
+						(+d.Office_Heating*bldg_gsf_office) +
+						(+d.community_center_Heating*bldg_gsf_community) +
+						(+d.Retail_Heating*bldg_gsf_retail) +
+						(+d.Grocery_Heating*bldg_gsf_grocery) +
+						(+d.Hotel_Heating*bldg_gsf_hotel)+
+						d.Total_DHW_multiplied_area					
+						
+			// ============================================
+			// Simultaneous heating/cooling load calculation
+			// ============================================
+			
+			// Available Simultaneous cooling load (kbtu)	
+			// Actual Simultaneous heating load = =IF(Total_Cooling *1.4< Total_Heating,Total_Cooling,Total_Heating/1.4)
+			if (d.Total_Cooling_multiplied_area*1.4 < d.Total_Heating_multiplied_area){
+				d.Actual_Simultaneous_cooling_load = d.Total_Cooling_multiplied_area;
+				}
+			else{
+				d.Actual_Simultaneous_cooling_load = d.Total_Heating_multiplied_area/1.4;		
+				}
+				
+			// Available Simultaneous cooling load (kbtu)	
+				d.Actual_Simultaneous_heating_load = d.Actual_Simultaneous_cooling_load*1.4/10		
+		
+			// Actual Simultaneous space heating load (free heating) = IF(Actual_Simultaneous_heating_load < Total_Heating_multiplied_area_val ,Actual_Simultaneous_heating_load, Total_Heating_multiplied_area_val)				
+				if(d.Actual_Simultaneous_heating_load < d.Total_Heating_multiplied_area){
+					d.free_heating_load = d.Actual_Simultaneous_heating_load;
+				}
+				else{						
+					d.free_heating_load = d.Total_Heating_multiplied_area
+				}
+
+			// Actual Simultaneous DHW load = Actual Simultaneous heating load - Free Heating
+				d.Actual_Simultaneous_DHW_load = d.Actual_Simultaneous_heating_load - d.free_heating_load
+
+			// Actual Simultaneous cooling load (free cooling)		  
+				d.free_cooling_load = d.Actual_Simultaneous_cooling_load/10
+				
+		  });
+  
+
+		 //Show / hide elements on mouse click with d3.js : http://bl.ocks.org/d3noob/5d621a60e2d1d02086bf
+		var margin = {top: 20, right: 200, bottom: 100, left: 80},
+			margin_context = {top: 500, right: 200, bottom: 20, left: 80},
+			width = 1500 - margin.left - margin.right,
+			height_focus = 600 - margin.top - margin.bottom,
+			height_context = 600 - margin_context.top - margin_context.bottom;
+
+		var svg = d3.select("#load_profile_graph").append("svg")
+					.attr("width", width + margin.left + margin.right)
+					.attr("height", height_focus + margin.top + margin.bottom);
+
+			svg.append("defs").append("clipPath")
+				.attr("id", "clip")
+				.append("rect")
+				.attr("width", width)
+				.attr("height", height_focus);
+
+		var focus = svg.append("g")
+			.attr("class", "focus")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		var context = svg.append("g")
+			.attr("class", "context")
+			.attr("transform", "translate(" + margin_context.left + "," + margin_context.top + ")");
+
+		var x_focus = d3.time.scale().range([0, width]),
+			x_context = d3.time.scale().range([0, width]),
+			y_focus = d3.scale.linear().range([height_focus, 0]),
+			y_context = d3.scale.linear().range([height_context, 0]);
+
+
+		var xAxis = d3.svg.axis().scale(x_focus).orient("bottom"),
+			xAxis2 = d3.svg.axis().scale(x_context).orient("bottom"),
+			yAxis = d3.svg.axis().scale(y_focus).orient("left");
+
+
+		var brush = d3.svg.brush()
+			.x(x_context)
+			.on("brush", brushed);
+	
+
+		x_focus.domain(d3.extent(data.map(function(d) { return d.time; })));
+		y_focus.domain([d3.min(data.map(function(d) { return d3.min([0,-d.Total_Heating_multiplied_area])})), d3.max(data.map(function(d) { return d3.max([d.Total_Cooling_multiplied_area,d.Total_Heating_multiplied_area]); }))]);
+		x_context.domain(x_focus.domain());
+		y_context.domain(y_focus.domain());			
+
+		//need to update
+		var contextLine = d3.svg.line()
+			.x(function(d) { return x_context(d.time); })
+			.y(function(d) { return y_context(d.Total_Cooling_multiplied_area-d.Total_Heating_multiplied_area); })
+			.interpolate("linear");
+			
+		var Total_Cooling_Area = d3.svg.area()
+			.x(function(d) { return x_focus(d.time); })
+			.y(function(d) { return y_focus(d.Total_Cooling_multiplied_area); })
+			.y0(function(d) {return y_focus(0);})
+			.interpolate("linear");
+			
+		var Total_Heating_Area = d3.svg.area()
+			.x(function(d) { return x_focus(d.time); })
+			.y(function(d) { return y_focus(-d.Total_Heating_multiplied_area); })
+			.y0(function(d) {return y_focus(0);})
+			.interpolate("linear");
+
+		var Total_DHW_Area = d3.svg.area()
+			.x(function(d) { return x_focus(d.time); })
+			.y(function(d) { return y_focus(-d.Total_DHW_multiplied_area); })
+			.y0(function(d) {return y_focus(0);})
+			.interpolate("linear");			
+
+		var Simul_Heating = d3.svg.area()
+			.x(function(d) { return x_focus(d.time); })
+			.y(function(d) { return y_focus(-d.free_heating_load); })
+			.y0(function(d) {return y_focus(0);})
+			.interpolate("linear");		
+
+		var Simul_Cooling = d3.svg.area()
+			.x(function(d) { return x_focus(d.time); })
+			.y(function(d) { return y_focus(d.free_cooling_load); })
+			.y0(function(d) {return y_focus(0);})
+			.interpolate("linear");					
+
+		focus.append("g")
+		  .attr("class", "x axis")
+		  .attr("transform", "translate(0," + height_focus + ")")
+		  .call(xAxis);
+
+		focus.append("g")
+		  .attr("class", "y axis")
+		  .call(yAxis);
+
+		focus.append("text")
+		  .attr("transform", "rotate(-90)")
+		  .attr("y", 0 - margin.left)
+		  .attr("x",0 - (height_focus / 2))
+		  .attr("dy", "1em")
+		  .style("text-anchor", "middle")
+		  .text("Load (btu)");  
+		  
+		context.append("g")
+		  .attr("class", "x axis")
+		  .attr("transform", "translate(0," + height_context + ")")
+		  .call(xAxis2);
+
+		focus.append("path")
+		  .datum(data)
+		  .style("fill","steelblue")
+		  .style("fill-opacity",0.6)
+		  .attr("id","cooling_load")
+		  .attr("clip-path", "url(#clip)")
+		  .attr("d", Total_Cooling_Area);
+		  
+		focus.append("path")
+		  .datum(data)
+		  .style("fill","red")
+		 .style("fill-opacity",0.6)
+		  .attr("id","heating_load")
+		  .attr("clip-path", "url(#clip)")
+		  .attr("d", Total_Heating_Area);
+
+		  focus.append("path")
+		  .datum(data)
+		  .style("fill","orange")
+		 .style("fill-opacity",0.6)
+		  .attr("id","dhw_load")
+		  .attr("clip-path", "url(#clip)")
+		  .attr("d", Total_DHW_Area);
+
+		focus.append("path")
+		  .datum(data)
+		  .style("fill","green")
+		  .style("fill-opacity",0.6)
+		  .attr("id","simul_heating_load")
+		  .attr("clip-path", "url(#clip)")
+			.attr("d", Simul_Heating);
+
+		  focus.append("path")
+		  .datum(data)
+		  .style("fill","green")
+		  .style("fill-opacity",0.6)
+		  .attr("id","simul_cooling_load")
+		  .attr("clip-path", "url(#clip)")
+		  .attr("d", Simul_Cooling);		  
+
+		  
+			context.append("path")
+			  .datum(data)
+			  .attr("class", "line")
+			  .attr("d", contextLine);	  
+			  
+			context.append("g")
+			  .attr("class", "x brush")
+			  .call(brush)
+			  .selectAll("rect")
+			  .attr("y", -6)
+			  .attr("height", height_context + 7);
+		  
+		function brushed() {
+		  x_focus.domain(brush.empty() ? x_context.domain() : brush.extent());
+		  focus.select("#cooling_load").attr("d", Total_Cooling_Area);
+		  focus.select("#heating_load").attr("d", Total_Heating_Area);
+		  focus.select("#dhw_load").attr("d", Total_DHW_Area);
+		  focus.select("#simul_heating_load").attr("d", Simul_Heating);
+		  focus.select("#simul_cooling_load").attr("d", Simul_Cooling);
+		  focus.select(".x.axis").call(xAxis);
+		};
+
+		legend = focus.append("g")
+		  .attr("class","legend")
+		  .attr("transform","translate(50,50)")  
+		  .style("font-size","14px")
+		 
+		legend.append('text')
+			.text("Total Cooling Load (btu)")
+			.style("stroke", "blue")
+			.on("click", function(){
+				// Determine if current line is visible
+				var active   = cooling_load.active ? false : true,
+				  newOpacity = active ? 0 : 1;
+				// Hide or show the elements
+				d3.select("#cooling_load").style("opacity", newOpacity);
+				// Update whether or not the elements are active
+				cooling_load.active = active;
+			})
+				  
+		legend.append('text')
+			.text("Total Heating Load (btu)")
+			.style("stroke", "red")
+			.attr("y", 20)
+			.on("click", function(){
+				var active   = heating_load.active ? false : true,
+				  newOpacity = active ? 0 : 1;
+				d3.select("#heating_load").style("opacity", newOpacity);
+				heating_load.active = active;
+			})
+
+		legend.append('text')
+			.text("Total DHW Load (btu)")
+			.style("stroke", "orange")
+			.attr("y", 40)
+			.on("click", function(){
+				var active   = dhw_load.active ? false : true,
+				  newOpacity = active ? 0 : 1;
+				d3.select("#dhw_load").style("opacity", newOpacity);
+				dhw_load.active = active;
+			})
+			
+		legend.append('text')
+			.text("Simultaneous Cooling/ Heating (btu)")
+			.style("stroke", "green")
+			.attr("y", 60)
+			.on("click", function(){
+				var active   = simul_heating_load.active ? false : true,
+					newOpacity = active ? 0 : 1;
+				d3.select("#simul_heating_load").style("opacity", newOpacity);
+				d3.select("#simul_cooling_load").style("opacity", newOpacity);
+				simul_heating_load.active = active;
+			})
+
+
+	}
+	);
+}
+		// Reset Button Function
+//function resetfunction(){
+//	document.getElementById("runmodel").reset();
+//	document.getElementById("output").reset();
+//	$('#example').DataTable().clear().draw();
+//	$('#example').DataTable().destroy();
+//}
+		
+</script>
+
+
+<!-- footer -->
+<footer class="footer">
+      <div class="container-fluid">
+        <p>If you have any questions, please feel free to contact abcdefg </p>
+      </div>
+</footer> <!-- end of footer -->
+
+</div> 
+</body>
+</html>
+
+<!-- 
+REFERNCE:
+http://cs.au.dk/~mis/JS/sli05.html
+
+Reload
+https://medium.com/code-kings/datatables-js-how-to-update-your-data-object-for-ajax-json-data-retrieval-c1ac832d7aa5
+
+Convert:
+http://datatables.club/upgrade/1.10-convert.html
+
+Create PDF
+http://108.160.144.86/pexpenses.php?PID=1
+
+Range Selector
+https://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172
+-->
