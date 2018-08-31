@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title> CENTRAL PLANT WEBPAGE ! THIS IS MOCK UP PAGE ! </title>
+<title> CENTRAL PLANT WEBPAGE</title>
 
 
 <!-- load css -->
@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="./lib/CSS/jquery.dataTables.css" type="text/css"></link>
 
 
+
 <!-- load javascript libraries -->
 <script src="./lib/jquery-2.2.4.min.js"></script>
 <script src="./lib/d3.min.js"></script>
@@ -17,8 +18,7 @@
 <script type="text/javascript" charset="utf8" src="./lib/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="./lib/js/highstock.js"></script>
 <script type="text/javascript" charset="utf8" src="./lib/js/exporting.js"></script>
-
-
+<script type="text/javascript" charset="utf8" src="./lib/js/d3_tip_v0_6.js"></script>
 
 <style>
 .link {
@@ -26,18 +26,20 @@
   stroke: #000;
   stroke-opacity: .2;
 }
+
 body {
     padding-top: 0px;
     padding-right: 80px;
     padding-bottom: 0px;
     padding-left: 80px;
 } 
+
 footer {
       background-color: #e2f7ff;
 	  position: absolute;
       bottom: 10;
       height: 20px;
-	  width: 85%;
+	  width: 90%;
 	  margin-top: 15px;
 	  margin-bottom: 20px;
 }
@@ -59,13 +61,13 @@ input[type=button] {
 }
 
 input[type=number],select{
-width: 100%;
-padding:10px 20px;
-margin: 5px 0;
-display: inline-block;
-border: 1px solid #ccc;
-border-radius: 4px;
-box-sizing: border-box;
+	width: 100%;
+	padding:10px 20px;
+	margin: 5px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 .line {
@@ -99,18 +101,34 @@ box-sizing: border-box;
 	overflow: auto;	
 }
 
-/* result */
+/* result format*/
 #result {
-	width: 100%;
+	width: auto;
 	height: auto;
-	padding: 12px 20px;
-	margin-top: 30px;
-	background: #f2f2f2;
-	border-radius: 4px;
+	border-collapse: collapse;
 	/*color: white;*/
-	text-align: left;
-	overflow: auto;	
+	text-align: center;	
+	padding: 12px 20px;
 }
+
+#result td, #result th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+#result tr:nth-child(even){
+	background-color: #dddddd;
+}
+
+#result th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #b2b2b2;
+    color: white;
+}
+
+
 </style>
 
 
@@ -121,7 +139,7 @@ box-sizing: border-box;
 	<nav class="navbar navbar-default navbar-static-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <h1> CENTRAL PLANT WEBPAGE ! THIS IS MOCK UP PAGE ! </h1>      
+              <h1> Web-based Master Planning Load Profile Generator </h1>      
           </div>
         </div>
    </nav>
@@ -131,7 +149,7 @@ box-sizing: border-box;
 
 <div class="container-fluid">    
 <!-- Summary -->  
-<p class="survey"> Description of the webpage
+<p class="survey"> This web-based tool aims to help the design team determine the central plant options based on the campus load profiles.
 </p>
 
  
@@ -139,19 +157,20 @@ box-sizing: border-box;
 	<form id="runmodel" action="/action_page.php">
 		<div class="col-lg-4"> 
 		<p><b>Building Total Square Footage (GSF): </b></p>
-		Residential Building/ Dorm(GSF): <input type="number" name="bldg_gsf_res" value= 10000000>
+		Residential Building/ Dorm(GSF): <input type="number" name="bldg_gsf_res" value= 1527000>
 		<br>
-		Office Building(GSF): <input type="number" name="bldg_gsf_office" value= 100000>
+		Office Building(GSF): <input type="number" name="bldg_gsf_office" value= 1750000>
 		<br>
-		Community Center Building(GSF): <input type="number" name="bldg_gsf_community" value= 100000>
+		Community Center Building(GSF): <input type="number" name="bldg_gsf_community" value= 40000>
 		<br>
-		Retail Building(GSF): <input type="number" name="bldg_gsf_retail" value= 100000>
+		Retail Building(GSF): <input type="number" name="bldg_gsf_retail" value= 90000>
 		<br>
-		Grocery Store Building(GSF): <input type="number" name="bldg_gsf_grocery" value= 100000>
+		Grocery Store Building(GSF): <input type="number" name="bldg_gsf_grocery" value= 35000>
 		<br>
-		Hotel Building(GSF): <input type="number" name="bldg_gsf_hotel" value= 100000>
+		Hotel Building(GSF): <input type="number" name="bldg_gsf_hotel" value= 112500>
 		<br>
 		CA Climate Zone: <select name="climate_zone">
+			<option>Under Development </option>
 			<option>CZ 01</option>
 			<option>CZ 02</option>
 			<option>CZ 03</option>
@@ -160,11 +179,11 @@ box-sizing: border-box;
 		</div>	 
 		<div class="col-lg-4"> 
 		<p><b>System Efficiency: </b><p>
-		Water-to-Water HP Heating Rated COP: <input type="number" name="wwhp_heating_rated_COP" value= 4>
+		Water-to-Water HP Heating Rated COP: <input type="number" name="wwhp_heating_rated_COP" value= 4.5>
 		<br>
-		Water-to-Water HP Cooling Rated COP: <input type="number" name="wwhp_cooling_rated_COP" value= 4>
+		Water-to-Water HP Cooling Rated COP: <input type="number" name="wwhp_cooling_rated_COP" value= 3.8>
 		<br>
-		Water Cooling Chiller Rated COP: <input type="number" name="water_cooling_chiller_rated_COP" value= 6>
+		Water Cooling Chiller Rated COP: <input type="number" name="water_cooling_chiller_rated_COP" value= 6.1>
 		<br> 
 		Boiler Efficiency (0~1): <input type="number" name="boiler_efficiency" value= 0.80>
 		<br>
@@ -175,6 +194,7 @@ box-sizing: border-box;
 		<div class="col-lg-4"> 
 		<p><b>Energy Efficiency Measures: </b></p>
 		HVAC System Type: <select name="hvac_type">
+			<option>Under Development </option>
 			<option>No cooling/ Gas Heating </option>
 			<option>Roof Top Unit (DX Cooling/ Gas Heating) </option>
 			<option>Roof Top Unit (DX Cooling/ Electric Heating)</option>
@@ -182,6 +202,7 @@ box-sizing: border-box;
 		</select>
 		<br>
 		DHW Type: <select name="dhw_type">
+			<option>Under Development </option>
 			<option>60% Central Water Heater </option>
 			<option>Heat Exchanger</option>
 			<option>Heat Pump Water Heater</option>
@@ -189,6 +210,7 @@ box-sizing: border-box;
 		</select>
 		<br>		
 		Energy Efficiency Measure: <select name="bldg_eems">
+			<option>Under Development </option>
 			<option>20% Lighting Power Density Reduction</option>
 			<option>20% Plug Load Power Density Reduction</option>
 			<option>Wall Upgrade</option>
@@ -201,8 +223,9 @@ box-sizing: border-box;
 		<br>
 		<br>
 		<br>
+		<br>
 		<input type="button" onclick="runsimulation()" value = "RUN SIMULATION">
-		<input type="button" onclick="resetfunction()" value = "RESET">
+		<input type="button" onclick="window.location.reload()" value = "RESET">
 		</div>	
 	</form>
 </div>
@@ -220,16 +243,19 @@ box-sizing: border-box;
 <div class="row"></div>
 
 <div class="row"> 
-	<table id="result">
-		<tr>
-			<th>Total Cooling Energy</th>
-			<td>123</td>
-		</tr>
-		<tr>
-			<th>Total Heating Energy</th>
-			<td>123</td>
-		</tr>
-	</table>
+	<h3> Load Summary </h3>
+		<div id="result">
+		<div id="result_load_summary">
+	</div>
+	</div>
+</div>
+
+<div class="row"> 
+	<h3> Energy Summary </h3>
+	<div id="result">
+		<div id="result_energy_summary">
+		</div>
+	</div>
 </div>
 
 <!-- Show Data -->
@@ -264,13 +290,14 @@ function runsimulation(){
 	var bldg_gsf_retail= inputs.bldg_gsf_retail.value;	
 	var bldg_gsf_grocery= inputs.bldg_gsf_grocery.value;	
 	var bldg_gsf_hotel= inputs.bldg_gsf_hotel.value;
-	//console.log(bldg_gsf_office)
 	var wwhp_heating_rated_COP = inputs.wwhp_heating_rated_COP.value;
 	var wwhp_cooling_rated_COP = inputs.wwhp_cooling_rated_COP.value;
 	var water_cooling_chiller_rated_COP = inputs.water_cooling_chiller_rated_COP.value;
 	var boiler_efficiency = inputs.boiler_efficiency.value;
 	var dhw_efficiency = inputs. dhw_efficiency.value;
-	
+	var totalarea = Number(inputs.bldg_gsf_office.value) + Number(inputs.bldg_gsf_community.value) + 
+					Number(inputs.bldg_gsf_retail.value) + Number(inputs.bldg_gsf_grocery.value) + Number(inputs.bldg_gsf_res.value) + 
+					Number(inputs.bldg_gsf_hotel.value);
 	// To disply:
 		// Total Cooling Primary (kbtu)	
 		// Total cooling Secondary	(kbtu) = Res + Hotel
@@ -282,12 +309,15 @@ function runsimulation(){
 	//var parseDate = d3.time.format("%m/%d/%Y %H:%M:%S%p").parse;
 	
 	// for large
-	var parseDate = d3.time.format(" %m/%d  %H:%M:%S").parse;
+	var parseDate = d3.time.format("%m/%d/%Y %H:%M").parse;
+	var parseDay = d3.time.format("%m/%d/%Y").parse;
+	var formatDate = d3.time.format("%m/%d/%Y");
 	
 	d3.csv("./data/data_source.csv", function(data){
 		//console.log(data);
 		data.forEach(function(d){
 			d.time = parseDate(d["Time"])
+			d.date = formatDate(d.time)
 			//Total Cooling Load
 			d.Total_Cooling_multiplied_area = 
 						(+d.Office_Cooling*bldg_gsf_office) +
@@ -296,7 +326,7 @@ function runsimulation(){
 						(+d.Grocery_Cooling*bldg_gsf_grocery)+
 						(+d.Residential_Cooling*bldg_gsf_res)+
 						(+d.Hotel_Cooling*bldg_gsf_hotel)
-
+						
 			// Total DHW Load
 			d.Total_DHW_multiplied_area = 
 						(+d.Residential_DHW*bldg_gsf_res) +
@@ -305,62 +335,213 @@ function runsimulation(){
 						(+d.Retail_DHW*bldg_gsf_retail) +
 						(+d.Grocery_DHW*bldg_gsf_grocery) +
 						(+d.Hotel_DHW*bldg_gsf_hotel)						
-						
-			//Total Heating Load (including DHW load)
-			d.Total_Heating_multiplied_area = 
+			//console.log(d.Total_DHW_multiplied_area)
+			
+			//Total Heating Load (no DHW load)
+			d.Total_Heating_multiplied_area_noDHW = 
 						(+d.Residential_Heating*bldg_gsf_res) +
 						(+d.Office_Heating*bldg_gsf_office) +
 						(+d.community_center_Heating*bldg_gsf_community) +
 						(+d.Retail_Heating*bldg_gsf_retail) +
 						(+d.Grocery_Heating*bldg_gsf_grocery) +
-						(+d.Hotel_Heating*bldg_gsf_hotel)+
-						d.Total_DHW_multiplied_area					
+						(+d.Hotel_Heating*bldg_gsf_hotel)
+
+			//console.log(d.Total_Heating_multiplied_area_noDHW)
 						
+		
+			//Total Heating Load (including DHW load)
+			d.Total_Heating_multiplied_area = d.Total_Heating_multiplied_area_noDHW + d.Total_DHW_multiplied_area
+			
+			//console.log(d.Total_Heating_multiplied_area)
+
+			
 			// ============================================
 			// Simultaneous heating/cooling load calculation
 			// ============================================
 			
 			// Available Simultaneous cooling load (kbtu)	
-			// Actual Simultaneous heating load = =IF(Total_Cooling *1.4< Total_Heating,Total_Cooling,Total_Heating/1.4)
-			if (d.Total_Cooling_multiplied_area*1.4 < d.Total_Heating_multiplied_area){
-				d.Actual_Simultaneous_cooling_load = d.Total_Cooling_multiplied_area;
+			// Available Simultaneous heating load = =IF(Total_Cooling *1.4< Total_Heating,Total_Cooling,Total_Heating/1.4)
+			if (d.Total_Cooling_multiplied_area < d.Total_Heating_multiplied_area){
+				d.Available_Simultaneous_cooling_load = d.Total_Cooling_multiplied_area;
 				}
 			else{
-				d.Actual_Simultaneous_cooling_load = d.Total_Heating_multiplied_area/1.4;		
+				d.Available_Simultaneous_cooling_load = d.Total_Heating_multiplied_area;		
 				}
+			//console.log(d.Available_Simultaneous_cooling_load)	
 				
-			// Available Simultaneous cooling load (kbtu)	
-				d.Actual_Simultaneous_heating_load = d.Actual_Simultaneous_cooling_load*1.4/10		
+			// Available Simultaneous heating load (kbtu)	
+				d.Available_Simultaneous_heating_load = d.Available_Simultaneous_cooling_load		
+			//console.log(d.Available_Simultaneous_heating_load)
 		
-			// Actual Simultaneous space heating load (free heating) = IF(Actual_Simultaneous_heating_load < Total_Heating_multiplied_area_val ,Actual_Simultaneous_heating_load, Total_Heating_multiplied_area_val)				
-				if(d.Actual_Simultaneous_heating_load < d.Total_Heating_multiplied_area){
-					d.free_heating_load = d.Actual_Simultaneous_heating_load;
+			// Available Simultaneous DHW load
+			if (d.Available_Simultaneous_heating_load < d.Total_Heating_multiplied_area_noDHW){
+				d.Available_Simultaneous_dhw_load = d.Available_Simultaneous_heating_load - d.Available_Simultaneous_heating_load;
+				}
+			else{
+				d.Available_Simultaneous_dhw_load = d.Available_Simultaneous_heating_load - d.Total_Heating_multiplied_area_noDHW;		
+				}
+			//console.log(d.Available_Simultaneous_dhw_load)
+			
+			// =============================
+			// WWHP energy
+			// ============================
+			
+			// Water to water heat pump heating energy = Free heating/ WWHP heating rated COP
+
+				d.wwhp_heating_energy = d.Available_Simultaneous_heating_load/ wwhp_heating_rated_COP;
+				
+			// Water to water heat pump cooling energy = =IF(Actual Simultaneous DHW load=0,Free Cooling/WWHP cooling rated COP,0)
+
+				if(d.Actual_Simultaneous_DHW_load = 0){
+					d.wwhp_cooling_energy = d.Available_Simultaneous_cooling_load/ wwhp_cooling_rated_COP;
 				}
 				else{						
-					d.free_heating_load = d.Total_Heating_multiplied_area
+					d.wwhp_cooling_energy = 0;
 				}
+			//console.log(d.wwhp_cooling_energy)
+			
+			// Chiller Energy = =(Total Cooling Load - Free cooling load)/ Water cooling chiller rated COP
+				d.chiller_energy = (d.Total_Cooling_multiplied_area - d.Available_Simultaneous_cooling_load) / water_cooling_chiller_rated_COP;
+		
+			// Boiler Energy = =(Total_Heating_multiplied_area_val - Free Heating)/boiler_efficiency
+				d.boiler_energy = (d.Total_Heating_multiplied_area - d.Available_Simultaneous_heating_load) / boiler_efficiency;
 
-			// Actual Simultaneous DHW load = Actual Simultaneous heating load - Free Heating
-				d.Actual_Simultaneous_DHW_load = d.Actual_Simultaneous_heating_load - d.free_heating_load
 
-			// Actual Simultaneous cooling load (free cooling)		  
-				d.free_cooling_load = d.Actual_Simultaneous_cooling_load/10
+
+		  // DHW Energy = =(Total DHW - Actual Simultaneous DHW load - Solar thermal load for residential)/dhw_efficiency
+		  // TODOS: To include "Solar thermal load for residential"
+				d.dhw_energy = (d.Actual_Simultaneous_DHW_load - d.Available_Simultaneous_dhw_load) / dhw_efficiency;
+			});
+		  
+		//console.log(data)
+
+		var Total_Cooling_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +(d.Total_Cooling_multiplied_area); }); })
+				  .entries(data);		
+
+		var Total_Heating_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +(d.Total_Heating_multiplied_area_noDHW); }); })
+				  .entries(data);	
+
+		var Total_dhw_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +(d.Total_DHW_multiplied_area); }); })
+				  .entries(data);	
+		
+		var Total_simul_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +(d.Available_Simultaneous_cooling_load); }); })
+				  .entries(data);	
+				  
+		var Max_Cooling_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.max(v, function(d) { return +(d.Total_Cooling_multiplied_area); }); })
+				  .entries(data);		
+
+		var Max_Heating_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.max(v, function(d) { return +(d.Total_Heating_multiplied_area_noDHW); }); })
+				  .entries(data);	
+
+		var Max_dhw_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.max(v, function(d) { return +(d.Total_DHW_multiplied_area); }); })
+				  .entries(data);	
+
+		var Max_simul_load_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.max(v, function(d) { return +(d.Available_Simultaneous_cooling_load); }); })
+				  .entries(data);	
+
 				
-		  });
-  
+		var Total_Cooling_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +(d.wwhp_cooling_energy + d.chiller_energy); }); })
+				  .entries(data);
+		//console.log(Total_Cooling_year_nest)
+		
+		var Total_Heating_Elect_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +d.wwhp_heating_energy; }); })
+				  .entries(data);
+		//console.log(Total_Heating_Elect_year_nest)
+		
+		var Total_Heating_Gas_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +d.boiler_energy; }); })
+				  .entries(data);
+		//console.log(Total_Heating_Gas_year_nest)
+		
+		var Total_DHW_year_nest = d3.nest()
+				  .key(function(d) { return (d3.time.year(d.time)); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +d.dhw_energy; }); })
+				  .entries(data);
 
+		
+		var Total_Cooling_day_nest = d3.nest()
+				  .key(function(d) { return (d.date); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return +d.Total_Cooling_multiplied_area; }); })
+				  .entries(data);
+				  
+			Total_Cooling_day_nest.forEach(function(d) {
+					d.key = (parseDay(d.key));
+					})
+					
+		//console.log(Total_Cooling_day_nest)
+		//console.log(JSON.stringify(Total_Cooling_day_nest))	
+		
+		var Total_DHW_day_nest = d3.nest()
+				  .key(function(d) { return (d.date); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return d.Total_DHW_multiplied_area; }); })
+				  .entries(data);
+			
+			Total_DHW_day_nest.forEach(function(d) {
+					d.key = (parseDay(d.key));
+					})
+
+
+		var Total_Heating_day_nest = d3.nest()
+				  .key(function(d) { return (d.date); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return d.Total_Heating_multiplied_area; }); })
+				  .entries(data);
+			//console.log(JSON.stringify(Total_Heating_day).values)
+			Total_Heating_day_nest.forEach(function(d) {
+					d.key = (parseDay(d.key));
+					})
+				  
+		var Total_Free_Cooling_day_nest = d3.nest()
+				  .key(function(d) { return (d.date); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return d.Available_Simultaneous_cooling_load; }); })
+				  .entries(data);
+			Total_Free_Cooling_day_nest.forEach(function(d) {
+					d.key = (parseDay(d.key));
+					})
+				  
+		var Total_Free_Heating_day_nest = d3.nest()
+				  .key(function(d) { return (d.date); })
+				  .rollup(function(v) { return d3.sum(v, function(d) { return d.Available_Simultaneous_heating_load; }); })
+				  .entries(data);
+			Total_Free_Heating_day_nest.forEach(function(d) {
+					d.key = (parseDay(d.key));
+					})
+				  
 		 //Show / hide elements on mouse click with d3.js : http://bl.ocks.org/d3noob/5d621a60e2d1d02086bf
 		var margin = {top: 20, right: 200, bottom: 100, left: 80},
 			margin_context = {top: 500, right: 200, bottom: 20, left: 80},
 			width = 1500 - margin.left - margin.right,
 			height_focus = 600 - margin.top - margin.bottom,
 			height_context = 600 - margin_context.top - margin_context.bottom;
-
+			
+			
 		var svg = d3.select("#load_profile_graph").append("svg")
 					.attr("width", width + margin.left + margin.right)
 					.attr("height", height_focus + margin.top + margin.bottom);
 
-			svg.append("defs").append("clipPath")
+		
+			svg.append("defs")
+				.append("clipPath")
 				.attr("id", "clip")
 				.append("rect")
 				.attr("width", width)
@@ -390,44 +571,62 @@ function runsimulation(){
 			.on("brush", brushed);
 	
 
-		x_focus.domain(d3.extent(data.map(function(d) { return d.time; })));
-		y_focus.domain([d3.min(data.map(function(d) { return d3.min([0,-d.Total_Heating_multiplied_area])})), d3.max(data.map(function(d) { return d3.max([d.Total_Cooling_multiplied_area,d.Total_Heating_multiplied_area]); }))]);
+		  x_focus.domain(d3.extent(data, function (d) {
+					return parseDay(d.date);
+				  }));
+
+		//x_focus.domain(d3.extent(data.map(function(d) { return parseDate(d.date); })));
+		y_focus.domain([-Max_Cooling_load_year_nest[0].values*12, Max_Cooling_load_year_nest[0].values*15]);
+		//y_focus.domain([d3.min(data.map(function(d) { return d3.min([0,-d.Total_Heating_multiplied_area])})), d3.max(data.map(function(d) { return d3.max([d.Total_Cooling_multiplied_area,0]); }))]);
 		x_context.domain(x_focus.domain());
 		y_context.domain(y_focus.domain());			
 
 		//need to update
-		var contextLine = d3.svg.line()
-			.x(function(d) { return x_context(d.time); })
-			.y(function(d) { return y_context(d.Total_Cooling_multiplied_area-d.Total_Heating_multiplied_area); })
+		//var contextLine = d3.svg.line()
+		var contextLine = d3.svg.area()
+			.x(function(d) { return x_context(d.key); })
+			//.y(function(d) { return y_context(d.Total_Cooling_multiplied_area-d.Total_Heating_multiplied_area); })
+			.y(function(d) { return y_context(+d.values); })
+			.y0(function(d) { return y_context(-d.values); })
+			//.y(function(d) { d3.values(d).map(function(v) { 
 			.interpolate("linear");
 			
 		var Total_Cooling_Area = d3.svg.area()
-			.x(function(d) { return x_focus(d.time); })
-			.y(function(d) { return y_focus(d.Total_Cooling_multiplied_area); })
+			.x(function(d) { return x_focus((d.key)); })
+			//.y(function(d) { return y_focus(d.Total_Cooling_multiplied_area); })
+			.y(function(d) { return y_focus(+d.values); })
 			.y0(function(d) {return y_focus(0);})
 			.interpolate("linear");
-			
+
 		var Total_Heating_Area = d3.svg.area()
-			.x(function(d) { return x_focus(d.time); })
-			.y(function(d) { return y_focus(-d.Total_Heating_multiplied_area); })
+			//.x(function(d) { return x_focus(d.time); })
+			.x(function(d) { return x_focus((d.key)); })			
+			//.y(function(d) { return y_focus(-d.Total_Heating_multiplied_area); })
+			.y(function(d) { return y_focus(-d.values); })
 			.y0(function(d) {return y_focus(0);})
 			.interpolate("linear");
 
 		var Total_DHW_Area = d3.svg.area()
-			.x(function(d) { return x_focus(d.time); })
-			.y(function(d) { return y_focus(-d.Total_DHW_multiplied_area); })
+			//.x(function(d) { return x_focus(d.time); })
+			.x(function(d) { return x_focus((d.key)); })	
+			//.y(function(d) { return y_focus(-d.Total_DHW_multiplied_area); })
+			.y(function(d) { return y_focus(-d.values); })
 			.y0(function(d) {return y_focus(0);})
 			.interpolate("linear");			
 
 		var Simul_Heating = d3.svg.area()
-			.x(function(d) { return x_focus(d.time); })
-			.y(function(d) { return y_focus(-d.free_heating_load); })
+			//.x(function(d) { return x_focus(d.time); })
+			.x(function(d) { return x_focus((d.key)); })	
+			//.y(function(d) { return y_focus(-d.Available_Simultaneous_heating_load); })
+			.y(function(d) { return y_focus(-d.values); })
 			.y0(function(d) {return y_focus(0);})
 			.interpolate("linear");		
 
 		var Simul_Cooling = d3.svg.area()
-			.x(function(d) { return x_focus(d.time); })
-			.y(function(d) { return y_focus(d.free_cooling_load); })
+			//.x(function(d) { return x_focus(d.time); })
+			.x(function(d) { return x_focus((d.key)); })	
+			//.y(function(d) { return y_focus(d.Available_Simultaneous_cooling_load); })
+			.y(function(d) { return y_focus(+d.values); })
 			.y0(function(d) {return y_focus(0);})
 			.interpolate("linear");					
 
@@ -454,23 +653,43 @@ function runsimulation(){
 		  .call(xAxis2);
 
 		focus.append("path")
-		  .datum(data)
+		  //.datum(data)
+		  .datum(Total_Cooling_day_nest)
 		  .style("fill","steelblue")
-		  .style("fill-opacity",0.6)
+		  .style("fill-opacity",0.9)
 		  .attr("id","cooling_load")
 		  .attr("clip-path", "url(#clip)")
 		  .attr("d", Total_Cooling_Area);
+
 		  
 		focus.append("path")
-		  .datum(data)
+		  //.datum(data)
+		  .datum(Total_Heating_day_nest)
 		  .style("fill","red")
 		 .style("fill-opacity",0.6)
 		  .attr("id","heating_load")
 		  .attr("clip-path", "url(#clip)")
 		  .attr("d", Total_Heating_Area);
+		  <!-- .on('mouseover',  function(d){ d3.values(d).map(function(v) { -->
+					<!-- //tip.show(v);  -->
+				<!-- div.transition()		 -->
+					<!-- .duration(200)		 -->
+					<!-- .style("opacity", .9);		 -->
+				<!-- div	.html(v.values) -->
+					<!-- .style("left", (d3.event.pageX) + "px")		 -->
+					<!-- .style("top", (d3.event.pageY - 28) + "px");	 -->
+					<!-- })}) -->
+			<!-- .on('mouseout', function(d){ d3.values(d).map(function(v) { -->
+					<!-- //tip.show(v);  -->
+				     <!-- div.transition()		 -->
+						<!-- .duration(500)		 -->
+						<!-- .style("opacity", 0);	 -->
+					<!-- })}); -->
+
 
 		  focus.append("path")
-		  .datum(data)
+		  //.datum(data)
+		  .datum(Total_DHW_day_nest)
 		  .style("fill","orange")
 		 .style("fill-opacity",0.6)
 		  .attr("id","dhw_load")
@@ -478,15 +697,17 @@ function runsimulation(){
 		  .attr("d", Total_DHW_Area);
 
 		focus.append("path")
-		  .datum(data)
+		  //.datum(data)
+		  .datum(Total_Free_Heating_day_nest)
 		  .style("fill","green")
 		  .style("fill-opacity",0.6)
 		  .attr("id","simul_heating_load")
 		  .attr("clip-path", "url(#clip)")
-			.attr("d", Simul_Heating);
-
+		  .attr("d", Simul_Heating);
+		  
 		  focus.append("path")
-		  .datum(data)
+		  //.datum(data)
+		  .datum(Total_Free_Cooling_day_nest)
 		  .style("fill","green")
 		  .style("fill-opacity",0.6)
 		  .attr("id","simul_cooling_load")
@@ -494,9 +715,12 @@ function runsimulation(){
 		  .attr("d", Simul_Cooling);		  
 
 		  
-			context.append("path")
-			  .datum(data)
-			  .attr("class", "line")
+		context.append("path")
+			  .datum(Total_Free_Cooling_day_nest)
+				.style("fill","green")
+				.style("fill-opacity",0.6)
+			  //.attr("class", "line")
+			  .attr("clip-path", "url(#clip)")
 			  .attr("d", contextLine);	  
 			  
 			context.append("g")
@@ -567,18 +791,46 @@ function runsimulation(){
 				d3.select("#simul_cooling_load").style("opacity", newOpacity);
 				simul_heating_load.active = active;
 			})
-
-
+			
+			var format_no_decimal = d3.format(",.0f")
+			var format = d3.format(",.2f")
+			
+			//Load Summary
+			$('#result_load_summary').append('<tr><td></td><td >Campus Cooling</td><td>Campus Heating</td><td>Campus DHW</td></tr>');
+			$('#result_load_summary').append('<tr><td> Annual Total </td><td>' + format_no_decimal(Total_Cooling_load_year_nest[0].values/1000) + ' mmbtu/yr</td><td>' + format_no_decimal(Total_Heating_load_year_nest[0].values/1000) + ' mmbtu/yr</td><td>' + format_no_decimal(Total_dhw_load_year_nest[0].values/1000) + ' mmbtu/yr</td></tr>');
+			$('#result_load_summary').append('<tr><td> Peak </td><td>' + format_no_decimal(Max_Cooling_load_year_nest[0].values) + ' btu/hr</td><td>' + format_no_decimal(Max_Heating_load_year_nest[0].values) + ' btu/hr</td><td>' + format_no_decimal(Max_dhw_load_year_nest[0].values) + ' btu/hr</td></tr>');
+			$('#result_load_summary').append('<tr><td>Heat Recovery Opportunities</td><td colspan = "3"> ' + ((Total_simul_load_year_nest[0].values/(Total_Heating_load_year_nest[0].values+Total_dhw_load_year_nest[0].values))*100).toFixed(2) + ' % of Total heating Load can be covered by waster heat</td></tr>');
+			
+			baseline_cooling_elec = (Total_Cooling_load_year_nest[0].values/5/1000)
+			baseline_heating_gas = ((Total_Heating_load_year_nest[0].values+ Total_dhw_load_year_nest[0].values)/0.8/1000)
+			baseline_total = baseline_cooling_elec + baseline_heating_gas
+			proposed_cooling_elec = (Total_Cooling_year_nest[0].values/1000)
+			proposed_heating_elec = (Total_Heating_Elect_year_nest[0].values/1000)
+			proposed_heating_gas = (Total_Heating_Gas_year_nest[0].values/1000)
+			proposed_total = proposed_cooling_elec + proposed_heating_elec + proposed_heating_gas
+			
+			// Energy Summary
+			$('#result_energy_summary').append('<tr><td></td><td colspan = "2"> Baseline </td><td colspan = "2"> Proposed </td></tr>');
+			$('#result_energy_summary').append('<tr><td>Total Campus Area </td><td colspan = "4">' + format_no_decimal(totalarea) +  ' sq.ft. </td></tr>');
+			$('#result_energy_summary').append('<tr><td>Cooling System</td><td colspan = "2"> 5 COP Water-cooled Chillers  </td><td colspan = "2"> Heat Recovery Chiller </td></tr>');
+			$('#result_energy_summary').append('<tr><td>Heating System</td><td colspan = "2"> 80% Boiler </td><td colspan = "2"> Boiler </td></tr>');
+			$('#result_energy_summary').append('<tr><td>DHW System</td><td colspan = "2"> 80% Boiler </td><td colspan = "2"> Boiler </td></tr>');		
+			$('#result_energy_summary').append('<tr><td> Total cooling energy </td><td>' + format(baseline_cooling_elec) + '  mmbtu</td><td>' + format(baseline_cooling_elec*1000/totalarea) + ' kBtu/sf-yr</td><td>' + format(proposed_cooling_elec) + '  mmbtu</td><td>' + format(proposed_cooling_elec*1000/totalarea) + ' kBtu/sf-yr</td></tr>');
+			$('#result_energy_summary').append('<tr><td> Total Heating electricity energy </td><td>' + 0 + '  mmbtu</td><td>' + 0 + ' kBtu/sf-yr</td><td>' + format(proposed_heating_elec) + '  mmbtu</td><td>' + format(proposed_heating_elec*1000/totalarea) + ' kBtu/sf-yr</td></tr>');
+			$('#result_energy_summary').append('<tr><td> Total heating Gas Energy </td><td>' + format(baseline_heating_gas) + '  mmbtu</td><td>' + format(baseline_heating_gas*1000/totalarea)+ ' kBtu/sf-yr</td><td>'+ format(proposed_heating_gas) + '  mmbtu</td><td>' + format(proposed_heating_gas*1000/totalarea) +' kBtu/sf-yr</td></tr>');
+			//$('#result_energy_summary').append('<tr><td> Total pump Energy </td><td>' + result + ' mmbtu</td><td>' + result + ' kBtu/sf-yr</td></tr>');
+			//$('#result_energy_summary').append('<tr><td> Total pump Energy </td><td>' + result + ' mmbtu</td><td>' + result + ' kBtu/sf-yr</td></tr>');
+			//$('#result_energy_summary').append('<tr><td> Total pump Energy </td><td>' + result + ' mmbtu</td><td>' + result + ' kBtu/sf-yr</td></tr>');
+			$('#result_energy_summary').append('<tr><td> Total Cooling & Heating Energy Intensity </td><td>' + format(baseline_total)  + ' mmbtu</td><td>' + format(baseline_total*1000/totalarea)  + ' kBtu/sf-yr</td><td>' + format(proposed_total)  + ' mmbtu</td><td>' + format(proposed_total*1000/totalarea)  + ' kBtu/sf-yr</td></tr>');
 	}
 	);
 }
-		// Reset Button Function
-//function resetfunction(){
-//	document.getElementById("runmodel").reset();
-//	document.getElementById("output").reset();
-//	$('#example').DataTable().clear().draw();
-//	$('#example').DataTable().destroy();
-//}
+
+
+		
+// Add output table
+// Fixed the y-axis
+//Download calculated data
 		
 </script>
 
@@ -586,9 +838,10 @@ function runsimulation(){
 <!-- footer -->
 <footer class="footer">
       <div class="container-fluid">
-        <p>If you have any questions, please feel free to contact abcdefg </p>
+        <p>If you have any questions, please feel free to contact Te Qi (gtqite@gmail.com) and An-Lei Huang (anery817@gmail.com) </p>
       </div>
-</footer> <!-- end of footer -->
+</footer>
+<!-- end of footer -->
 
 </div> 
 </body>
