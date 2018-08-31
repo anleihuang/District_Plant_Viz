@@ -296,7 +296,9 @@ function runsimulation(){
 		//console.log(data);
 		data.forEach(function(d){
 			d.time = parseDate(d["Time"])
+			console.log(d.time)
 			d.date = formatDate(d.time)
+			console.log(d.date)
 			//Total Cooling Load
 			d.Total_Cooling_multiplied_area = 
 						(+d.Office_Cooling*bldg_gsf_office) +
