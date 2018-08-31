@@ -295,6 +295,7 @@ function runsimulation(){
 	d3.csv("./data/data_source.csv", function(data){
 		//console.log(data);
 		data.forEach(function(d){
+			console.log(d["Time"])
 			d.time = parseDate(d["Time"])
 			console.log(d.time)
 			d.date = formatDate(d.time)
