@@ -553,10 +553,7 @@ function runsimulation(){
 		  x_focus.domain(d3.extent(data, function (d) {
 					return parseDay(d.date);
 				  }));
-
-		//x_focus.domain(d3.extent(data.map(function(d) { return parseDate(d.date); })));
 		y_focus.domain([-Max_Cooling_load_year_nest[0].values*12, Max_Cooling_load_year_nest[0].values*15]);
-		//y_focus.domain([d3.min(data.map(function(d) { return d3.min([0,-d.Total_Heating_multiplied_area])})), d3.max(data.map(function(d) { return d3.max([d.Total_Cooling_multiplied_area,0]); }))]);
 		x_context.domain(x_focus.domain());
 		y_context.domain(y_focus.domain());			
 
@@ -649,21 +646,6 @@ function runsimulation(){
 		  .attr("id","heating_load")
 		  .attr("clip-path", "url(#clip)")
 		  .attr("d", Total_Heating_Area);
-		  <!-- .on('mouseover',  function(d){ d3.values(d).map(function(v) { -->
-					<!-- //tip.show(v);  -->
-				<!-- div.transition()		 -->
-					<!-- .duration(200)		 -->
-					<!-- .style("opacity", .9);		 -->
-				<!-- div	.html(v.values) -->
-					<!-- .style("left", (d3.event.pageX) + "px")		 -->
-					<!-- .style("top", (d3.event.pageY - 28) + "px");	 -->
-					<!-- })}) -->
-			<!-- .on('mouseout', function(d){ d3.values(d).map(function(v) { -->
-					<!-- //tip.show(v);  -->
-				     <!-- div.transition()		 -->
-						<!-- .duration(500)		 -->
-						<!-- .style("opacity", 0);	 -->
-					<!-- })}); -->
 
 
 		  focus.append("path")
