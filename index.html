@@ -255,24 +255,6 @@ input[type=number],select{
 	</div>
 </div>
 
-<!-- Show Data -->
-<!-- <table id="example" class="display" cellspacing="0" width="100%"> -->
-        <!-- <thead> -->
-            <!-- <tr> -->
-                <!-- <th>Time</th> -->
-				<!-- <th>Total Cooling Primary (kbtu)</th>		 -->
-				<!-- </tr> -->
-        <!-- </thead> -->
-        <!-- <tfoot> -->
-            <!-- <tr> -->
-                <!-- <th>Time</th> -->
-				<!-- <th>Total Cooling Primary (kbtu)</th> -->
-	
-				<!-- </tr> -->
-        <!-- </tfoot> -->
-    <!-- </table> -->
-
-
 <script>
 
 // Run Simulation Button Function
@@ -306,9 +288,9 @@ function runsimulation(){
 	//var parseDate = d3.time.format("%m/%d/%Y %H:%M:%S%p").parse;
 	
 	// for large
-	var parseDate = d3.time.format("%m/%d/%Y %H:%M").parse;
-	var parseDay = d3.time.format("%m/%d/%Y").parse;
-	var formatDate = d3.time.format("%m/%d/%Y");
+	var parseDate = d3.time.format("%m/%d/%y %H:%M").parse;
+	var parseDay = d3.time.format("%m/%d/%y").parse;
+	var formatDate = d3.time.format("%m/%d/%y");
 	
 	d3.csv("./data/data_source.csv", function(data){
 		//console.log(data);
