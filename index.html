@@ -288,9 +288,9 @@ function runsimulation(){
 	//var parseDate = d3.time.format("%m/%d/%Y %H:%M:%S%p").parse;
 	
 	// for large
-	var parseDate = d3.time.format("%m/%d/%y %H:%M").parse;
-	var parseDay = d3.time.format("%m/%d/%y").parse;
-	var formatDate = d3.time.format("%m/%d/%y");
+	var parseDate = d3.time.format("%m/%d/%Y %H:%M").parse;
+	var parseDay = d3.time.format("%m/%d/%Y").parse;
+	var formatDate = d3.time.format("%m/%d/%Y");
 	
 	d3.csv("./data/data_source.csv", function(data){
 		//console.log(data);
